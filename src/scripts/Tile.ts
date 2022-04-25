@@ -8,18 +8,11 @@ class Tile {
 	cleared: boolean;
 	flagged: boolean;
 	rigged: boolean = false;
-	prox: number;
-	/**
-	 * Checks how many bombs are within a block tile radius of the tile
-	 * @returns The number of bombs within the tiles proximity
-	 */
-	calculateProx(): number {
-		return 0;
-	}
+	bombProx: number;
 	constructor(cleared?: boolean, flagged?: boolean) {
 		this.cleared = cleared === undefined ? false : cleared;
 		this.flagged = flagged === undefined ? false : flagged;
-		this.prox = this.calculateProx();
+		this.bombProx = 0;
 	}
 }
 

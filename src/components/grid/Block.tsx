@@ -32,23 +32,34 @@ const Block = (props: blockProps) => {
 
 	const fontColors = ["#80c1ff", "green", "coral", "red"];
 
+	const block = props.tileArrState[props.blockIdx[0]][props.blockIdx[1]];
+
 	return (
 		<div
 			className="block"
 			onClick={() => props.onClick(props.blockIdx[0], props.blockIdx[1])}
 			style={{
 				...BlockStyling,
-				...(props.tileArrState[props.blockIdx[0]][props.blockIdx[1]].cleared
+				...(block.cleared
 					? {backgroundColor: '#ccc'}
 					: null),
 				color: fontColors[2],
 			}}
 		>
-			{props.tileArrState[props.blockIdx[0]][props.blockIdx[1]].cleared ? (
-				props.tileArrState[props.blockIdx[0]][props.blockIdx[1]].rigged ? <img src={bombIcon} alt="bomb" style={ImageStyling} /> : 4
-			) : props.tileArrState[props.blockIdx[0]][props.blockIdx[1]].flagged ? (
-				<img src={flagIcon} alt="flag" style={ImageStyling} />
-			) : null}
+			{
+				block.cleared ?
+					(
+						block.rigged ? 
+							<img src={bombIcon} alt="bomb" style={ImageStyling} />
+							: block.bombProx	
+					)
+					: 
+					(
+						block.flagged ?
+							<img src={flagIcon} alt="flag" style={ImageStyling} />
+							: null
+					)
+			}
 		</div>
 	)
 }
