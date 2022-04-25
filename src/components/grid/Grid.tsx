@@ -1,18 +1,22 @@
 import { CSSProperties } from "react";
-import flagIcon from "../../assets/flag.png";
-import TileNode from "../../scripts/Tile";
+import Block from "./Block";
+import Tile from "../../scripts/Tile";
 
 interface gridProps {
-	tileArrState: TileNode[][];
+	tileArrState: Tile[][];
 	gridWidth: number;
 	gridHeight: number;
 	tileEventHandler: (tileRow: number, tileCol: number) => void;
 }
 
 const Grid = (props: gridProps) => {
-	const blockSize = 65;
+	const blockSize = 45;
 
-	const gridWidhtStyle = () => {
+	/**
+	 * Dynamically styles the grid in a responsive manner
+	 * @returns The required css value of grid-template-coloumns
+	 */
+	const gridWidthStyle = () => {
 		let gridStyle = "";
 		for (let i = 0; i < props.tileArrState[0].length; i++) {
 			gridStyle += "1fr ";
@@ -20,61 +24,24 @@ const Grid = (props: gridProps) => {
 		return gridStyle;
 	};
 
-	const RowStyling: CSSProperties = {
-		display: "grid",
-		gridTemplateColumns: `${gridWidhtStyle()}`,
-		gap: "1px",
+	const GridStyling: CSSProperties = {
 		width: `${props.gridWidth * blockSize}px`,
 		height: `${props.gridHeight * blockSize}px`,
-	};
-
-	const DefaultBlock: CSSProperties = {
-		borderRadius: "5px",
 		display: "grid",
-		alignContent: "center",
-		justifyContent: "center",
-	};
-
-	const BlockStyling: CSSProperties = {
-		backgroundColor: "#222",
-	};
-
-	const ClearedStyling: CSSProperties = {
-		backgroundColor: "#dadada",
-	};
-
-	const FlaggedStyling: CSSProperties = {
-		backgroundColor: "#f97",
+		gridTemplateColumns: `${gridWidthStyle()}`,
+		gap: "2px",
 	};
 
 	return (
-		<div className="Grid" style={RowStyling}>
-			{props.tileArrState.map((row: TileNode[], rowIdx: number) =>
-				row.map((tile: TileNode, tileIdx: number) => (
-					<div
-						onClick={() => props.tileEventHandler(rowIdx, tileIdx)}
-						style={{
-							...DefaultBlock,
-							...(props.tileArrState[rowIdx][tileIdx].cleared
-								? ClearedStyling
-								: props.tileArrState[rowIdx][tileIdx].flagged
-								? FlaggedStyling
-								: BlockStyling),
-						}}
-					>
-						{props.tileArrState[rowIdx][tileIdx].cleared ? null : props
-								.tileArrState[rowIdx][tileIdx].flagged ? (
-							<img
-								src={flagIcon}
-								alt="flag"
-								style={{
-									margin: "auto",
-									width: "35%",
-									backgroundColor: "#f97",
-								}}
-							/>
-						) : null}
-					</div>
+		<div className="Grid" style={GridStyling}>
+			{props.tileArrState.map((row: Tile[], rowIdx: number) =>
+				row.map((tile: Tile, tileIdx: number) => (
+					<Block
+						tileArrState={props.tileArrState}
+						onClick={props.tileEventHandler}
+						blockIdx={[rowIdx, tileIdx]}
+						blockSize={blockSize}
+					/>
 				))
 			)}
 		</div>

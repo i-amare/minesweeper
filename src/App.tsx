@@ -1,31 +1,42 @@
 import React, { useState } from "react";
-import TileNode from "./scripts/Tile";
+import Tile from "./scripts/Tile";
 import "./App.css";
 import Grid from "./components/grid/Grid";
 
 function App() {
-	const [gridWidthState, setGridWidthState] = useState(8);
+	const [gridWidthState, setGridWidthState] = useState(9);
 	const [gridHeightState, setGridHeightState] = useState(12);
+	const [bombState, setBombState] = useState(30);
 	const [tileArrState, setTileArrState] = useState(
-		createGrid(gridWidthState, gridHeightState)
+		createGrid(gridWidthState, gridHeightState, bombState)
 	);
 
 	/**
-	 * Creates a new grid of tiles with the specidied width and height
+	 * Creates a new grid of tiles with the specidied width and height and populates it with bombs
 	 * @param gridWidth The width of the grid
 	 * @param gridHeight The height of the grid
+	 * @param	bombs The number of bombs to be placed in the grid
 	 * @returns A new grid of tiles with the specidied height and width
 	 */
 
-	function createGrid(gridWidth: number, gridHeight: number) {
-		let grid: TileNode[][] = [];
+	function createGrid(gridWidth: number, gridHeight: number, bombs: number) {
+		let grid: Tile[][] = [];
+		// Creates 2 dimmensional array of block
 		for (let i = 0; i < gridHeight; i++) {
-			let row: TileNode[] = [];
+			let row: Tile[] = [];
 			for (let j = 0; j < gridWidth; j++) {
-				row.push(new TileNode());
+				row.push(new Tile());
 			}
 			grid.push([...row]);
 		}
+
+		// Populates the grid with bombs
+		for (let i = 0; i < bombs; i++) {
+			let ranRow = Math.floor(Math.random() * gridHeight);
+			let ranCol = Math.floor(Math.random() * gridWidth);
+			grid[ranRow][ranCol].rigged = true;
+		}
+		grid[0][0].rigged = true;
 		return grid;
 	}
 
@@ -41,7 +52,6 @@ function App() {
 		if (!(tile.flagged || tile.cleared)) {
 			tile.cleared = true;
 		}
-		console.log(`Tile Row :${tileRow} \nTile Col: ${tileCol}`);
 		setTileArrState(newTileArrState);
 	}
 

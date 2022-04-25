@@ -4,9 +4,10 @@
  * @param flagged Whether the tile has been flagged
  * @param prox The number of bombs within the tiles proximity
  */
-class TileNode {
+class Tile {
 	cleared: boolean;
 	flagged: boolean;
+	rigged: boolean = false;
 	prox: number;
 	/**
 	 * Checks how many bombs are within a block tile radius of the tile
@@ -22,4 +23,4 @@ class TileNode {
 	}
 }
 
-export default TileNode;
+export default Tile;
