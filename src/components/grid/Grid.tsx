@@ -37,6 +37,7 @@ const Grid = (props: gridProps) => {
 			{props.tileArrState.map((row: Tile[], rowIdx: number) =>
 				row.map((tile: Tile, tileIdx: number) => (
 					<Block
+						key={`${rowIdx}-${tileIdx}`}
 						tileArrState={props.tileArrState}
 						onClick={props.tileEventHandler}
 						blockIdx={[rowIdx, tileIdx]}

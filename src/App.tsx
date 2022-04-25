@@ -18,7 +18,6 @@ function App() {
 	 * @param	bombs The number of bombs to be placed in the grid
 	 * @returns A new grid of tiles with the specidied height and width
 	 */
-
 	function createGrid(gridWidth: number, gridHeight: number, bombs: number) {
 		let grid: Tile[][] = [];
 		// Creates 2 dimmensional array of block
@@ -34,9 +33,9 @@ function App() {
 		for (let i = 0; i < bombs; i++) {
 			let ranRow = Math.floor(Math.random() * gridHeight);
 			let ranCol = Math.floor(Math.random() * gridWidth);
-			grid[ranRow][ranCol].rigged = true;
+			// Prevents an already rigged square from being counted again
+			grid[ranRow][ranCol].rigged ? i-- : (grid[ranRow][ranCol].rigged = true);
 		}
-		grid[0][0].rigged = true;
 		return grid;
 	}
 
