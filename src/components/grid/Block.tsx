@@ -30,7 +30,7 @@ const Block = (props: blockProps) => {
 		backgroundColor: "#ccc",
 	};
 
-	const fontColors = ["#80c1ff", "green", "coral", "red"];
+	const fontColors = ["white", "teal", "green", "lightcoral", "tomato", "red", "magenta", "blueviolet", "darkorchid", "black"];
 
 	const block = props.tileArrState[props.blockIdx[0]][props.blockIdx[1]];
 
@@ -43,18 +43,18 @@ const Block = (props: blockProps) => {
 				...block.cleared ?
 					(
 						block.rigged ? 
-							{backgroundColor: 'lightcoral'}
+							{backgroundColor: '#ff9a9a'}
 							: {backgroundColor: '#ccc'}
 					)
 					: null,
-				color: fontColors[1],
+				color: fontColors[block.bombProx],
 			}}
 		>
 			{
 				block.cleared ?
 					(
 						block.rigged ? 
-							<img src={bombIcon} alt="bomb" style={{...ImageStyling, backgroundColor: 'lightcoral'}} />
+							<img src={bombIcon} alt="bomb" style={{...ImageStyling, backgroundColor: '#ff9a9a'}} />
 							: block.bombProx ? block.bombProx : ""	
 					)
 					: 
