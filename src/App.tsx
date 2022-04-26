@@ -3,6 +3,7 @@ import Tile from "./scripts/Tile";
 import "./App.css";
 import Grid from "./components/grid/Grid";
 import Bar from "./components/bar/Bar";
+import Toggle from "./components/toggle/Toggle";
 import Vendor from "./scripts/Vendor";
 
 function App() {
@@ -16,6 +17,9 @@ function App() {
 		Vendor.createGrid(gridWidthState, gridHeightState, bombState)
 	);
 
+		// Flag mode states
+		const [flagModeState, setFlagModeState] = useState(false);
+
 	// Timer states
 	const [startTimeState, setStartTimeState] = useState(new Date().getTime());
 	const [timeElapsedState, setTimeElapsedState] = useState(0);
@@ -28,6 +32,10 @@ function App() {
 			clearInterval(interval);
 		};
 	}, [startTimeState]);
+
+	function toggleFlagMode() {
+		setFlagModeState(!flagModeState);
+	}
 
 	function resetGame() {
 		setGridState(Vendor.createGrid(gridWidthState, gridHeightState, bombState));
@@ -70,6 +78,7 @@ function App() {
 				gridWidth={gridWidthState}
 				tileEventHandler={onTileClick}
 			/>
+			<Toggle flagMode={flagModeState} toggleFlagMode={toggleFlagMode} />
 		</div>
 	);
 }
