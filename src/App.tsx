@@ -5,13 +5,12 @@ import Grid from "./components/grid/Grid";
 import Vendor from "./scripts/Vendor";
 
 function App() {
-	const [gridWidthState, setGridWidthState] = useState(9);
-	const [gridHeightState, setGridHeightState] = useState(12);
-	const [bombState, setBombState] = useState(15);
-	const [tileArrState, setTileArrState] = useState(
+	const [gridWidthState, setGridWidthState] = useState(12);
+	const [gridHeightState, setGridHeightState] = useState(18);
+	const [bombState, setBombState] = useState(50);
+	const [gridState, setGridState] = useState(
 		Vendor.createGrid(gridWidthState, gridHeightState, bombState)
 	);
-
 
 	/**
 	 * Handles the logic of tile clicks
@@ -19,19 +18,28 @@ function App() {
 	 * @param tileCol The row of the coloumn of the tile on the grid
 	 */
 	function onTileClick(tileRow: number, tileCol: number) {
-		const newTileArrState = [...tileArrState];
+		let newGridState = [...gridState];
+
 		// Clears tile if not flagged or already cleared
-		const tile = newTileArrState[tileRow][tileCol];
+		const tile = newGridState[tileRow][tileCol];
 		if (!(tile.flagged || tile.cleared)) {
+			tile.bombProx = Vendor.checkBombs(tileRow, tileCol, newGridState);
 			tile.cleared = true;
 		}
-		setTileArrState(newTileArrState);
+		setGridState(newGridState);
 	}
 
 	return (
-		<div className="App">
+		<div
+			className="App"
+			style={{
+				display: "grid",
+				alignContent: "center",
+				justifyContent: "center",
+			}}
+		>
 			<Grid
-				tileArrState={tileArrState}
+				tileArrState={gridState}
 				gridHeight={gridHeightState}
 				gridWidth={gridWidthState}
 				tileEventHandler={onTileClick}

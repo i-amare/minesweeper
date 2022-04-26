@@ -43,7 +43,7 @@ const Block = (props: blockProps) => {
 				...(block.cleared
 					? {backgroundColor: '#ccc'}
 					: null),
-				color: fontColors[2],
+				color: fontColors[1],
 			}}
 		>
 			{
@@ -51,7 +51,7 @@ const Block = (props: blockProps) => {
 					(
 						block.rigged ? 
 							<img src={bombIcon} alt="bomb" style={ImageStyling} />
-							: block.bombProx	
+							: block.bombProx ? block.bombProx : ""	
 					)
 					: 
 					(

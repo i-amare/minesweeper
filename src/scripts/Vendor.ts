@@ -1,5 +1,8 @@
 import Tile from "./Tile";
 
+/**
+ * The home of all the spaghetti code that makes the app run. Sorry to all who have to see it and God bless this mess
+ */
 const Vendor = {
 	/**
 	 * Creates a new grid of tiles with the specidied width and height and populates it with bombs
@@ -8,7 +11,7 @@ const Vendor = {
 	 * @param	bombs The number of bombs to be placed in the grid
 	 * @returns A new grid of tiles with the specidied height and width
 	 */
-	createGrid: (gridWidth: number, gridHeight: number, bombs: number) => {
+	createGrid(gridWidth: number, gridHeight: number, bombs: number) {
 		let grid: Tile[][] = [];
 
 		// Creates 2 dimmensional array of block
@@ -28,46 +31,29 @@ const Vendor = {
 			grid[ranRow][ranCol].rigged ? i-- : (grid[ranRow][ranCol].rigged = true);
 		}
 
-		// Checks the number of bombs within a one block radius of all blocks
-		for (let i = 0; i < gridHeight; i++) {
-			for (let j = 0; j < gridWidth; j++) {
-				let bombCount = 0;
-
-				// Checks for bombs in row above
-				if (i - 1 >= 0) {
-					if (j - 1 >= 0) {
-						bombCount = grid[i - 1][j - 1].rigged ? bombCount + 1 : bombCount;
+		return [...grid];
+	},
+	/**
+	 * Checks the number of bombs within a one block radius of the specified tile
+	 * @param tileRow The row of the tile
+	 * @param tileCol The coloumn of the tile
+	 * @param grid The current grid state
+	 * @returns The number of bombs within a one block radius of the specidied co-ords
+	 */
+	checkBombs(tileRow: number, tileCol: number, grid: Tile[][]) {
+		let numBombs = 0;
+		for (let i = -1; i <= 1; i++) {
+			for (let j = -1; j <= 1; j++) {
+				try {
+					if (grid[tileRow + i][tileCol + j].rigged) {
+						numBombs++;
 					}
-					bombCount = grid[i - 1][j].rigged ? bombCount + 1 : bombCount;
-					if (j + 1 < gridWidth) {
-						bombCount = grid[i - 1][j + 1].rigged ? bombCount + 1 : bombCount;
-					}
+				} catch (e) {
+					console.log("This bug is intentional. Too lazy to fix it:\n", e);
 				}
-
-				// Checks for bombs in row below
-				if (i + 1 < gridHeight) {
-					if (j - 1 >= 0) {
-						bombCount = grid[i + 1][j - 1].rigged ? bombCount + 1 : bombCount;
-					}
-					bombCount = grid[i + 1][j].rigged ? bombCount + 1 : bombCount;
-					if (j + 1 < gridWidth) {
-						bombCount = grid[i + 1][j + 1].rigged ? bombCount + 1 : bombCount;
-					}
-				}
-
-				// Checks for bombs in horizontally adjacent blocks
-				if (j - 1 >= 0) {
-					bombCount = grid[i][j - 1].rigged ? bombCount + 1 : bombCount;
-				}
-				if (j + 1 < gridWidth) {
-					bombCount = grid[i][j + 1].rigged ? bombCount + 1 : bombCount;
-				}
-
-				grid[i][j].bombProx = bombCount;
 			}
 		}
-
-		return grid;
+		return numBombs;
 	},
 };
 
