@@ -40,9 +40,13 @@ const Block = (props: blockProps) => {
 			onClick={() => props.onClick(props.blockIdx[0], props.blockIdx[1])}
 			style={{
 				...BlockStyling,
-				...(block.cleared
-					? {backgroundColor: '#ccc'}
-					: null),
+				...block.cleared ?
+					(
+						block.rigged ? 
+							{backgroundColor: 'lightcoral'}
+							: {backgroundColor: '#ccc'}
+					)
+					: null,
 				color: fontColors[1],
 			}}
 		>
@@ -50,7 +54,7 @@ const Block = (props: blockProps) => {
 				block.cleared ?
 					(
 						block.rigged ? 
-							<img src={bombIcon} alt="bomb" style={ImageStyling} />
+							<img src={bombIcon} alt="bomb" style={{...ImageStyling, backgroundColor: 'lightcoral'}} />
 							: block.bombProx ? block.bombProx : ""	
 					)
 					: 
