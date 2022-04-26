@@ -6,3 +6,7 @@
 .block:active {
 	transform: scale(0.95)
 }
+
+.ResetBtn:active {
+	transform: scale(0.9);
+}

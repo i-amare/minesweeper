@@ -29,6 +29,11 @@ function App() {
 		};
 	}, [startTimeState]);
 
+	function resetGame() {
+		setGridState(Vendor.createGrid(gridWidthState, gridHeightState, bombState));
+		setStartTimeState(new Date().getTime());
+	}
+
 	/**
 	 * Handles the logic of tile clicks
 	 * @param tileRow The row of the tile on the grid
@@ -58,7 +63,7 @@ function App() {
 				justifyContent: "center",
 			}}
 		>
-			<Bar timeElapsed={timeElapsedState} bombsLeft={bombState} />
+			<Bar timeElapsed={timeElapsedState} bombsLeft={bombState} reset={resetGame} />
 			<Grid
 				tileArrState={gridState}
 				gridHeight={gridHeightState}
