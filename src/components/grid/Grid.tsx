@@ -10,7 +10,7 @@ interface gridProps {
 }
 
 const Grid = (props: gridProps) => {
-	const blockSize = 45;
+	const blockSize = 35;
 
 	/**
 	 * Dynamically styles the grid in a responsive manner
@@ -25,11 +25,12 @@ const Grid = (props: gridProps) => {
 	};
 
 	const GridStyling: CSSProperties = {
-		width: `${props.gridWidth * blockSize}px`,
-		height: `${props.gridHeight * blockSize}px`,
+		maxWidth: "600px",
+		maxHeight: "800px",
 		display: "grid",
 		gridTemplateColumns: `${gridWidthStyle()}`,
-		gap: "2px",
+		gap: "1px",
+		overflow: "scroll",
 	};
 
 	return (

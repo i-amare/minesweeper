@@ -1,16 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Tile from "./scripts/Tile";
 import "./App.css";
 import Grid from "./components/grid/Grid";
+import Bar from "./components/bar/Bar";
 import Vendor from "./scripts/Vendor";
 
 function App() {
-	const [gridWidthState, setGridWidthState] = useState(12);
-	const [gridHeightState, setGridHeightState] = useState(18);
-	const [bombState, setBombState] = useState(30);
+	// Grid states
+	const [gridWidthState, setGridWidthState] = useState(18);
+	const [gridHeightState, setGridHeightState] = useState(24);
+	const [bombState, setBombState] = useState(
+		Math.round(gridWidthState * gridHeightState * 0.2)
+	);
 	const [gridState, setGridState] = useState(
 		Vendor.createGrid(gridWidthState, gridHeightState, bombState)
 	);
+
+	// Timer states
+	const [startTimeState, setStartTimeState] = useState(new Date().getTime());
+	const [timeElapsedState, setTimeElapsedState] = useState(0);
+	useEffect(() => {
+		const interval = setInterval(() => {
+			setTimeElapsedState(new Date().getTime() - startTimeState);
+		}, 1000);
+
+		return () => {
+			clearInterval(interval);
+		};
+	}, [startTimeState]);
 
 	/**
 	 * Handles the logic of tile clicks
@@ -41,6 +58,7 @@ function App() {
 				justifyContent: "center",
 			}}
 		>
+			<Bar timeElapsed={timeElapsedState} bombsLeft={bombState} />
 			<Grid
 				tileArrState={gridState}
 				gridHeight={gridHeightState}

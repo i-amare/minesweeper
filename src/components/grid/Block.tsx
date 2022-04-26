@@ -18,8 +18,8 @@ const Block = (props: blockProps) => {
 		alignContent: "center",
 		justifyContent: "center",
 		borderRadius: "3px",
-		maxHeight: `${props.blockSize}px`,
-		minHeight: `${props.blockSize}px`,
+		width: `${props.blockSize}px`,
+		height: `${props.blockSize}px`,
 		fontWeight: "bold",
 		transition: "transform 0.2s, background-color 0.2s",
 	};
