@@ -7,7 +7,7 @@ import Vendor from "./scripts/Vendor";
 function App() {
 	const [gridWidthState, setGridWidthState] = useState(12);
 	const [gridHeightState, setGridHeightState] = useState(18);
-	const [bombState, setBombState] = useState(50);
+	const [bombState, setBombState] = useState(30);
 	const [gridState, setGridState] = useState(
 		Vendor.createGrid(gridWidthState, gridHeightState, bombState)
 	);
@@ -25,6 +25,9 @@ function App() {
 		if (!(tile.flagged || tile.cleared)) {
 			tile.bombProx = Vendor.checkBombs(tileRow, tileCol, newGridState);
 			tile.cleared = true;
+		}
+		if (tile.bombProx === 0) {
+			Vendor.clear(tileRow, tileCol, newGridState);
 		}
 		setGridState(newGridState);
 	}

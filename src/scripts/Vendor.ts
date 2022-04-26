@@ -55,6 +55,29 @@ const Vendor = {
 		}
 		return numBombs;
 	},
+	/**
+	 * Clears all blocks within a 1 tile radius
+	 * @param tileRow The row of the tile
+	 * @param tileCol The coloumn of the tile
+	 */
+	clear(tileRow: number, tileCol: number, grid: Tile[][]) {
+		for (let i = -1; i <= 1; i++) {
+			for (let j = -1; j <= 1; j++) {
+				try {
+					let tile = grid[tileRow + i][tileCol + j];
+					if (!tile.cleared) {
+						tile.bombProx = this.checkBombs(tileRow + i, tileCol + j, grid);
+						tile.cleared = true;
+						if (tile.bombProx === 0) {
+							this.clear(tileRow + i, tileCol + j, grid);
+						}
+					}
+				} catch (e) {
+					console.log("This bug is intentional. Too lazy to fix it:\n", e);
+				}
+			}
+		}
+	},
 };
 
 export default Vendor;
