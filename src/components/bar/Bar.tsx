@@ -10,10 +10,10 @@ interface BarProps {
 const Bar = (props: BarProps) => {
 	const BarStyling: CSSProperties = {
 		display: "flex",
-		flexDirection: "column",
 		justifyContent: "center",
 		alignContent: "center",
-		margin: "25px 0 10px 0",
+		gap: "25px",
+		margin: "10px 0 30px 0",
 	};
 
 	return (

@@ -25,12 +25,15 @@ const Grid = (props: gridProps) => {
 	};
 
 	const GridStyling: CSSProperties = {
-		maxWidth: "600px",
-		maxHeight: "800px",
+		maxHeight: "85vh",
+		maxWidth: "90%",
+		marginLeft: "5%",
 		display: "grid",
 		gridTemplateColumns: `${gridWidthStyle()}`,
 		gap: "1px",
 		overflow: "scroll",
+		border: "4px solid #ccc",
+		borderRadius: "5px",
 	};
 
 	return (

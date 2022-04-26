@@ -10,7 +10,7 @@ function App() {
 	const [gridWidthState, setGridWidthState] = useState(18);
 	const [gridHeightState, setGridHeightState] = useState(24);
 	const [bombState, setBombState] = useState(
-		Math.round(gridWidthState * gridHeightState * 0.2)
+		Math.round(gridWidthState * gridHeightState * 0.15)
 	);
 	const [gridState, setGridState] = useState(
 		Vendor.createGrid(gridWidthState, gridHeightState, bombState)
