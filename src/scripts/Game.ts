@@ -13,7 +13,7 @@ interface tileCoords {
 /**
  * The home of all the spaghetti code that makes the app run. Sorry to all who have to see it and God bless this mess
  */
-const Vendor = {
+const Game = {
 	/**
 	 * Creates a new grid of tiles with the specidied dimmensions and populates it with bombs
 	 * @param gridDimmensions The dimmensions of the grid
@@ -63,6 +63,22 @@ const Vendor = {
 		}
 		return numBombs;
 	},
+	checkFlags(coords: tileCoords, grid: Tile[][]) {
+		let numFlags = 0;
+		const tile = grid[coords.x][coords.y];
+		for (let i = -1; i <= 1; i++) {
+			for (let j = -1; j <= 1; j++) {
+				try {
+					if (grid[coords.x + i][coords.y + j].flagged) {
+						numFlags++;
+					}
+				} catch (e) {
+					console.log("This bug is intentional. Too lazy to fix it:\n", e);
+				}
+			}
+		}
+		return numFlags >= tile.bombProx;
+	},
 	/**
 	 * Clears all blocks within a 1 tile radius
 	 * @param coords The x and y coordinate of the tile
@@ -73,12 +89,13 @@ const Vendor = {
 			for (let j = -1; j <= 1; j++) {
 				try {
 					const tile = grid[coords.x + i][coords.y + j];
-					if (!tile.cleared) {
+					if (!(tile.cleared || tile.flagged)) {
 						tile.bombProx = this.checkBombs(
 							{ x: coords.x + i, y: coords.y + j },
 							grid
 						);
 						tile.cleared = true;
+						tile.flagged = false;
 						if (tile.bombProx === 0)
 							this.clear({ x: coords.x + i, y: coords.y + j }, grid);
 					}
@@ -90,4 +107,4 @@ const Vendor = {
 	},
 };
 
-export default Vendor;
+export default Game;
