@@ -4,7 +4,12 @@ import Tile from "../../scripts/Tile";
 
 interface gridProps {
 	gridState: Tile[][];
-	tileEventHandler: (tileRow: number, tileCol: number) => void;
+	tileEventHandler: (coords: tileCoords) => void;
+}
+
+interface tileCoords {
+	x: number;
+	y: number;
 }
 
 const Grid = (props: gridProps) => {
@@ -39,10 +44,10 @@ const Grid = (props: gridProps) => {
 			{props.gridState.map((row: Tile[], rowIdx: number) =>
 				row.map((tile: Tile, tileIdx: number) => (
 					<Block
+						tile={props.gridState[rowIdx][tileIdx]}
 						key={`${rowIdx}-${tileIdx}`}
-						tileArrState={props.gridState}
 						onClick={props.tileEventHandler}
-						blockIdx={[rowIdx, tileIdx]}
+						coords={{ x: rowIdx, y: tileIdx }}
 						blockSize={blockSize}
 					/>
 				))

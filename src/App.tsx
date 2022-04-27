@@ -6,14 +6,22 @@ import Bar from "./components/bar/Bar";
 import Toggle from "./components/toggle/Toggle";
 import Vendor from "./scripts/Vendor";
 
+interface tileCoords {
+	x: number;
+	y: number;
+}
+
 function App() {
 	// Grid states
-	const [gridDimmensions, setGridDimmensions] = useState([24, 18]);
+	const [gridDimmensions, setGridDimmensions] = useState({
+		width: 24,
+		height: 18,
+	});
 	const [bombsPresent, setBombsPresent] = useState(
-		Math.round(gridDimmensions[0] * gridDimmensions[1] * 0.15)
+		Math.round(gridDimmensions.width * gridDimmensions.height * 0.15)
 	);
 	const [gridState, setGridState] = useState(
-		Vendor.createGrid(gridDimmensions[0], gridDimmensions[1], bombsPresent)
+		Vendor.createGrid(gridDimmensions, bombsPresent)
 	);
 
 	// Flag and bomb states
@@ -45,21 +53,20 @@ function App() {
 	 * Resetss all game variables
 	 */
 	function resetGame() {
-		setGridState(
-			Vendor.createGrid(gridDimmensions[1], gridDimmensions[0], bombsPresent)
-		);
+		setGridState(Vendor.createGrid(gridDimmensions, bombsPresent));
 		setBombsLeft(bombsPresent);
 		setStartTimeState(new Date().getTime());
 	}
 
 	/**
 	 * Handles the logic of tile clicks
-	 * @param tileRow The row of the tile on the grid
-	 * @param tileCol The row of the coloumn of the tile on the grid
+	 * @param coords The x and y coordinate of the tile
 	 */
-	function onTileClick(tileRow: number, tileCol: number) {
+	function onTileClick(tileCoords: tileCoords) {
 		let newGridState = [...gridState];
-		const tile = newGridState[tileRow][tileCol];
+		const tile = newGridState[tileCoords.x][tileCoords.y];
+		if (tile.cleared) return;
+		tile.bombProx = Vendor.checkBombs(tileCoords, newGridState);
 
 		if (flagModeState) {
 			// Toggles tile flag state
@@ -67,12 +74,9 @@ function App() {
 			setBombsLeft(tile.flagged ? bombsLeft - 1 : bombsLeft + 1);
 		} else {
 			// Clears tile if not flagged or already cleared
-			if (!(tile.flagged || tile.cleared)) {
-				tile.bombProx = Vendor.checkBombs(tileRow, tileCol, newGridState);
+			if (!tile.flagged) {
 				tile.cleared = true;
-				if (tile.bombProx === 0) {
-					Vendor.clear(tileRow, tileCol, newGridState);
-				}
+				if (tile.bombProx === 0) Vendor.clear(tileCoords, gridState);
 			} else {
 				tile.flagged = !tile.flagged;
 				setBombsLeft(tile.flagged ? bombsLeft - 1 : bombsLeft + 1);
