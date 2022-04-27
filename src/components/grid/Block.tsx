@@ -34,6 +34,7 @@ const Block = (props: blockProps) => {
 
 	const block = props.tileArrState[props.blockIdx[0]][props.blockIdx[1]];
 
+	// God bless this mess
 	return (
 		<div
 			className="block"

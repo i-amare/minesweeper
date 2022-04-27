@@ -1,5 +1,5 @@
-import Timer from "./Timer";
-import BombCount from "./BombCount";
+import Clock from "./Clock";
+import BombDisplay from "./BombDisplay";
 import restartIcon from "../../assets/restart.png";
 import menuIcon from "../../assets/menu.png";
 import { CSSProperties } from "react";
@@ -7,7 +7,7 @@ import { CSSProperties } from "react";
 interface BarProps {
 	timeElapsed: number;
 	bombsLeft: number;
-	reset: () => void;
+	resetGame: () => void;
 }
 
 const Bar = (props: BarProps) => {
@@ -30,6 +30,7 @@ const Bar = (props: BarProps) => {
 		<div className="Bar" style={BarStyling}>
 			<img className="MenuBtn" src={menuIcon} alt="Menu" style={imageStyling} />
 			<div
+				className="HUD"
 				style={{
 					display: "flex",
 					justifyContent: "center",
@@ -37,15 +38,15 @@ const Bar = (props: BarProps) => {
 					gap: "25px",
 				}}
 			>
-				<Timer timeElapsed={props.timeElapsed} />
-				<BombCount bombsLeft={props.bombsLeft} />
+				<Clock timeElapsed={props.timeElapsed} />
+				<BombDisplay bombsLeft={props.bombsLeft} />
 			</div>
 			<img
 				className="ResetBtn"
 				src={restartIcon}
 				alt="Restart"
 				style={imageStyling}
-				onClick={props.reset}
+				onClick={props.resetGame}
 			/>
 		</div>
 	);

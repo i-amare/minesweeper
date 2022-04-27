@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import Tile from "./scripts/Tile";
 import "./App.css";
 import Grid from "./components/grid/Grid";
@@ -8,22 +8,22 @@ import Vendor from "./scripts/Vendor";
 
 function App() {
 	// Grid states
-	const [gridWidthState, setGridWidthState] = useState(24);
-	const [gridHeightState, setGridHeightState] = useState(18);
-	const [bombState, setBombState] = useState(
-		Math.round(gridWidthState * gridHeightState * 0.15)
+	const [gridDimmensions, setGridDimmensions] = useState([24, 18]);
+	const [bombsPresent, setBombsPresent] = useState(
+		Math.round(gridDimmensions[0] * gridDimmensions[1] * 0.15)
 	);
 	const [gridState, setGridState] = useState(
-		Vendor.createGrid(gridWidthState, gridHeightState, bombState)
+		Vendor.createGrid(gridDimmensions[0], gridDimmensions[1], bombsPresent)
 	);
 
-	// Flag mode states
+	// Flag and bomb states
 	const [flagModeState, setFlagModeState] = useState(false);
-	const [bombsLeftState, setBombsLeftState] = useState(bombState);
+	const [bombsLeft, setBombsLeft] = useState(bombsPresent);
 
 	// Timer states
 	const [startTimeState, setStartTimeState] = useState(new Date().getTime());
 	const [timeElapsedState, setTimeElapsedState] = useState(0);
+
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setTimeElapsedState(new Date().getTime() - startTimeState);
@@ -34,13 +34,21 @@ function App() {
 		};
 	}, [startTimeState]);
 
+	/**
+	 * Toggles flag mode
+	 */
 	function toggleFlagMode() {
 		setFlagModeState(!flagModeState);
 	}
 
+	/**
+	 * Resetss all game variables
+	 */
 	function resetGame() {
-		setGridState(Vendor.createGrid(gridWidthState, gridHeightState, bombState));
-		setBombsLeftState(bombState);
+		setGridState(
+			Vendor.createGrid(gridDimmensions[1], gridDimmensions[0], bombsPresent)
+		);
+		setBombsLeft(bombsPresent);
 		setStartTimeState(new Date().getTime());
 	}
 
@@ -54,8 +62,9 @@ function App() {
 		const tile = newGridState[tileRow][tileCol];
 
 		if (flagModeState) {
+			// Toggles tile flag state
 			tile.flagged = !tile.flagged;
-			setBombsLeftState(tile.flagged ? bombsLeftState - 1 : bombsLeftState + 1);
+			setBombsLeft(tile.flagged ? bombsLeft - 1 : bombsLeft + 1);
 		} else {
 			// Clears tile if not flagged or already cleared
 			if (!(tile.flagged || tile.cleared)) {
@@ -66,36 +75,28 @@ function App() {
 				}
 			} else {
 				tile.flagged = !tile.flagged;
-				setBombsLeftState(
-					tile.flagged ? bombsLeftState - 1 : bombsLeftState + 1
-				);
+				setBombsLeft(tile.flagged ? bombsLeft - 1 : bombsLeft + 1);
 			}
 		}
 		setGridState(newGridState);
 	}
 
+	const AppStyling: CSSProperties = {
+		display: "flex",
+		flexDirection: "column",
+		alignContent: "center",
+		justifyContent: "space-between",
+		minHeight: "90vh",
+	};
+
 	return (
-		<div
-			className="App"
-			style={{
-				display: "flex",
-				flexDirection: "column",
-				alignContent: "center",
-				justifyContent: "space-between",
-				minHeight: "90vh",
-			}}
-		>
+		<div className="App" style={AppStyling}>
 			<Bar
 				timeElapsed={timeElapsedState}
-				bombsLeft={bombsLeftState}
-				reset={resetGame}
+				bombsLeft={bombsLeft}
+				resetGame={resetGame}
 			/>
-			<Grid
-				tileArrState={gridState}
-				gridHeight={gridHeightState}
-				gridWidth={gridWidthState}
-				tileEventHandler={onTileClick}
-			/>
+			<Grid gridState={gridState} tileEventHandler={onTileClick} />
 			<Toggle flagMode={flagModeState} toggleFlagMode={toggleFlagMode} />
 		</div>
 	);

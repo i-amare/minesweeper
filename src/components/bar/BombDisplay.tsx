@@ -5,7 +5,7 @@ interface BombCountProps {
 	bombsLeft: number;
 }
 
-const BombCount = (props: BombCountProps) => {
+const BombDisplay = (props: BombCountProps) => {
 	const imageStyling: CSSProperties = {
 		margin: "3px",
 		width: "20px",
@@ -31,4 +31,4 @@ const BombCount = (props: BombCountProps) => {
 	);
 };
 
-export default BombCount;
+export default BombDisplay;

@@ -5,7 +5,7 @@ interface TimerProps {
 	timeElapsed: number;
 }
 
-const Timer = (props: TimerProps) => {
+const Clock = (props: TimerProps) => {
 	const timerStyling: CSSProperties = {
 		display: "flex",
 		justifyContent: "center",
@@ -17,10 +17,17 @@ const Timer = (props: TimerProps) => {
 		width: "20px",
 	};
 
+	/**
+	 * Formats time elapsed into mm:ss format
+	 * @param milliSeconds The time elapsed in millisecods
+	 * @returns A string represnting the time passed in mm:ss format
+	 */
 	function formatTime(milliSeconds: number) {
 		const minutes = Math.floor((milliSeconds % (1000 * 60 * 60)) / (1000 * 60));
 		const seconds = Math.floor((milliSeconds % (1000 * 60)) / 1000);
-		return `${minutes < 10 ? "0" + minutes: minutes}:${seconds < 10 ? "0" + seconds : seconds}`
+		return `${minutes < 10 ? "0" + minutes : minutes}:${
+			seconds < 10 ? "0" + seconds : seconds
+		}`;
 	}
 
 	return (
@@ -37,4 +44,4 @@ const Timer = (props: TimerProps) => {
 	);
 };
 
-export default Timer;
+export default Clock;

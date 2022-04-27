@@ -31,7 +31,7 @@ const Vendor = {
 			grid[ranRow][ranCol].rigged ? i-- : (grid[ranRow][ranCol].rigged = true);
 		}
 
-		return [...grid];
+		return grid;
 	},
 	/**
 	 * Checks the number of bombs within a one block radius of the specified tile

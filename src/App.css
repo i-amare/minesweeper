@@ -2,10 +2,6 @@
 	background-color: "mintcream";
 }
 
-.block:active {
-	transform: scale(0.95)
-}
-
-.ResetBtn:active, .ToggleBtn:active {
+.ResetBtn:active, .ToggleBtn:active, .block:active {
 	transform: scale(0.9);
 }

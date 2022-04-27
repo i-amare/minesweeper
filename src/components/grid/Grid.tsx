@@ -3,9 +3,7 @@ import Block from "./Block";
 import Tile from "../../scripts/Tile";
 
 interface gridProps {
-	tileArrState: Tile[][];
-	gridWidth: number;
-	gridHeight: number;
+	gridState: Tile[][];
 	tileEventHandler: (tileRow: number, tileCol: number) => void;
 }
 
@@ -18,7 +16,7 @@ const Grid = (props: gridProps) => {
 	 */
 	const gridWidthStyle = () => {
 		let gridStyle = "";
-		for (let i = 0; i < props.tileArrState[0].length; i++) {
+		for (let i = 0; i < props.gridState[0].length; i++) {
 			gridStyle += "1fr ";
 		}
 		return gridStyle;
@@ -38,11 +36,11 @@ const Grid = (props: gridProps) => {
 
 	return (
 		<div className="Grid" style={GridStyling}>
-			{props.tileArrState.map((row: Tile[], rowIdx: number) =>
+			{props.gridState.map((row: Tile[], rowIdx: number) =>
 				row.map((tile: Tile, tileIdx: number) => (
 					<Block
 						key={`${rowIdx}-${tileIdx}`}
-						tileArrState={props.tileArrState}
+						tileArrState={props.gridState}
 						onClick={props.tileEventHandler}
 						blockIdx={[rowIdx, tileIdx]}
 						blockSize={blockSize}
