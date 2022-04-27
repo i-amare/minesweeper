@@ -27,7 +27,7 @@ const Block = (props: blockProps) => {
 	const ImageStyling: CSSProperties = {
 		margin: "auto",
 		width: "45%",
-		backgroundColor: "#ccc",
+		backgroundColor: "rgba(0, 0, 0, 0)",
 	};
 
 	const fontColors = ["white", "teal", "green", "lightcoral", "tomato", "red", "magenta", "blueviolet", "darkorchid", "black"];

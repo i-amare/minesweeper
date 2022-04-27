@@ -27,7 +27,7 @@ const Grid = (props: gridProps) => {
 	const GridStyling: CSSProperties = {
 		maxHeight: "85vh",
 		maxWidth: "90%",
-		marginLeft: "5%",
+		margin: "auto",
 		display: "grid",
 		gridTemplateColumns: `${gridWidthStyle()}`,
 		gap: "1px",

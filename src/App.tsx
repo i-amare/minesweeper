@@ -8,8 +8,8 @@ import Vendor from "./scripts/Vendor";
 
 function App() {
 	// Grid states
-	const [gridWidthState, setGridWidthState] = useState(18);
-	const [gridHeightState, setGridHeightState] = useState(24);
+	const [gridWidthState, setGridWidthState] = useState(24);
+	const [gridHeightState, setGridHeightState] = useState(18);
 	const [bombState, setBombState] = useState(
 		Math.round(gridWidthState * gridHeightState * 0.15)
 	);
@@ -17,8 +17,9 @@ function App() {
 		Vendor.createGrid(gridWidthState, gridHeightState, bombState)
 	);
 
-		// Flag mode states
-		const [flagModeState, setFlagModeState] = useState(false);
+	// Flag mode states
+	const [flagModeState, setFlagModeState] = useState(false);
+	const [bombsLeftState, setBombsLeftState] = useState(bombState);
 
 	// Timer states
 	const [startTimeState, setStartTimeState] = useState(new Date().getTime());
@@ -39,6 +40,7 @@ function App() {
 
 	function resetGame() {
 		setGridState(Vendor.createGrid(gridWidthState, gridHeightState, bombState));
+		setBombsLeftState(bombState);
 		setStartTimeState(new Date().getTime());
 	}
 
@@ -49,15 +51,25 @@ function App() {
 	 */
 	function onTileClick(tileRow: number, tileCol: number) {
 		let newGridState = [...gridState];
-
-		// Clears tile if not flagged or already cleared
 		const tile = newGridState[tileRow][tileCol];
-		if (!(tile.flagged || tile.cleared)) {
-			tile.bombProx = Vendor.checkBombs(tileRow, tileCol, newGridState);
-			tile.cleared = true;
-		}
-		if (tile.bombProx === 0) {
-			Vendor.clear(tileRow, tileCol, newGridState);
+
+		if (flagModeState) {
+			tile.flagged = !tile.flagged;
+			setBombsLeftState(tile.flagged ? bombsLeftState - 1 : bombsLeftState + 1);
+		} else {
+			// Clears tile if not flagged or already cleared
+			if (!(tile.flagged || tile.cleared)) {
+				tile.bombProx = Vendor.checkBombs(tileRow, tileCol, newGridState);
+				tile.cleared = true;
+				if (tile.bombProx === 0) {
+					Vendor.clear(tileRow, tileCol, newGridState);
+				}
+			} else {
+				tile.flagged = !tile.flagged;
+				setBombsLeftState(
+					tile.flagged ? bombsLeftState - 1 : bombsLeftState + 1
+				);
+			}
 		}
 		setGridState(newGridState);
 	}
@@ -66,12 +78,18 @@ function App() {
 		<div
 			className="App"
 			style={{
-				display: "grid",
+				display: "flex",
+				flexDirection: "column",
 				alignContent: "center",
-				justifyContent: "center",
+				justifyContent: "space-between",
+				minHeight: "90vh",
 			}}
 		>
-			<Bar timeElapsed={timeElapsedState} bombsLeft={bombState} reset={resetGame} />
+			<Bar
+				timeElapsed={timeElapsedState}
+				bombsLeft={bombsLeftState}
+				reset={resetGame}
+			/>
 			<Grid
 				tileArrState={gridState}
 				gridHeight={gridHeightState}
