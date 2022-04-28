@@ -14,8 +14,8 @@ interface tileCoords {
 function App() {
 	// Grid states
 	const [gridDimmensions, setGridDimmensions] = useState({
-		width: 36,
-		height: 22,
+		width: 16,
+		height: 16,
 	});
 	const [bombsPresent, setBombsPresent] = useState(
 		Math.round(gridDimmensions.width * gridDimmensions.height * 0.15)
@@ -48,10 +48,11 @@ function App() {
 		window.addEventListener("keyup", onKeyUp);
 
 		return () => {
+			window.removeEventListener("keypress", onKeyPress);
 			window.removeEventListener("keydown", onKeyDown);
 			window.removeEventListener("keydown", onKeyUp);
 		};
-	}, []);
+	}, [flagModeState]);
 
 	function onKeyPress(event: KeyboardEvent) {
 		if (event.key === "R" || event.key === "r") resetGame();
