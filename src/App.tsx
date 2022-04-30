@@ -4,6 +4,7 @@ import "./App.css";
 import Grid from "./components/grid/Grid";
 import Bar from "./components/bar/Bar";
 import Toggle from "./components/toggle/Toggle";
+import Menu from "./components/menu/Menu";
 import Game from "./scripts/Game";
 
 interface tileCoords {
@@ -17,20 +18,23 @@ function App() {
 		width: 16,
 		height: 16,
 	});
-	const [bombsPresent, setBombsPresent] = useState(
+	
+	const [minesPresent, setMinesPresent] = useState(
 		Math.round(gridDimmensions.width * gridDimmensions.height * 0.15)
 	);
 	const [gridState, setGridState] = useState(
-		Game.createGrid(gridDimmensions, bombsPresent)
+		Game.createGrid(gridDimmensions, minesPresent)
 	);
 
 	// Flag and bomb states
 	const [flagModeState, setFlagModeState] = useState(false);
-	const [bombsLeft, setBombsLeft] = useState(bombsPresent);
+	const [bombsLeft, setBombsLeft] = useState(minesPresent);
 
 	// Timer states
 	const [startTimeState, setStartTimeState] = useState(new Date().getTime());
 	const [timeElapsedState, setTimeElapsedState] = useState(0);
+
+	const [menuOpen, setMenuOpen] = useState(false);
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -54,17 +58,40 @@ function App() {
 		};
 	}, [flagModeState]);
 
+	// Handle keyboard shortcuts
 	function onKeyPress(event: KeyboardEvent) {
 		if (event.key === "R" || event.key === "r") resetGame();
 		if (event.key === "F" || event.key === "f") toggleFlagMode();
 	}
-
 	function onKeyDown(event: KeyboardEvent) {
 		if (event.key === "Control") setFlagModeState(true);
 	}
-
 	function onKeyUp(event: KeyboardEvent) {
 		if (event.key === "Control") setFlagModeState(false);
+	}
+
+	function changeDimmensions(dimmensions: { width: number; height: number }) {
+		setGridDimmensions(dimmensions);
+		resetGame();
+	}
+
+	function changeMinesPresent(numOfMines: number) {
+		setMinesPresent(numOfMines);
+		resetGame();
+	}
+
+	/**
+	 * Opens the popup menu
+	 */
+	function openMenu() {
+		setMenuOpen(true);
+	}
+
+	/**
+	 * Closes the popup menu
+	 */
+	function closeMenu() {
+		setMenuOpen(false);
 	}
 
 	/**
@@ -78,8 +105,8 @@ function App() {
 	 * Resetss all game variables
 	 */
 	function resetGame() {
-		setGridState(Game.createGrid(gridDimmensions, bombsPresent));
-		setBombsLeft(bombsPresent);
+		setGridState(Game.createGrid(gridDimmensions, minesPresent));
+		setBombsLeft(minesPresent);
 		setStartTimeState(new Date().getTime());
 	}
 
@@ -121,9 +148,19 @@ function App() {
 
 	return (
 		<div className="App" style={AppStyling}>
+			{menuOpen && (
+				<Menu
+					closeMenu={closeMenu}
+					gridDimmensions={gridDimmensions}
+					minesPresent={minesPresent}
+					changeDimmensions={changeDimmensions}
+					changeMinesPresent={changeMinesPresent}
+				/>
+			)}
 			<Bar
 				timeElapsed={timeElapsedState}
 				bombsLeft={bombsLeft}
+				openMenu={openMenu}
 				resetGame={resetGame}
 			/>
 			<Grid gridState={gridState} tileEventHandler={onTileClick} />

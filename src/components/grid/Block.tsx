@@ -28,6 +28,7 @@ const Block = (props: blockProps) => {
 		"darkorchid",
 		"black",
 	];
+	
 	const blockStyling: CSSProperties = {
 		backgroundColor: "#222",
 		display: "grid",

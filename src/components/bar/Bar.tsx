@@ -8,6 +8,7 @@ interface BarProps {
 	timeElapsed: number;
 	bombsLeft: number;
 	resetGame: () => void;
+	openMenu: () => void;
 }
 
 const Bar = (props: BarProps) => {
@@ -28,7 +29,13 @@ const Bar = (props: BarProps) => {
 
 	return (
 		<div className="Bar" style={BarStyling}>
-			<img className="MenuBtn" src={menuIcon} alt="Menu" style={imageStyling} />
+			<img
+				className="MenuBtn"
+				src={menuIcon}
+				alt="Menu"
+				style={imageStyling}
+				onClick={props.openMenu}
+			/>
 			<div
 				className="HUD"
 				style={{
