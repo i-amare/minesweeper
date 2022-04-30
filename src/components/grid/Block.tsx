@@ -16,24 +16,6 @@ interface tileCoords {
 }
 
 const Block = (props: blockProps) => {
-	const BlockStyling: CSSProperties = {
-		backgroundColor: "#222",
-		display: "grid",
-		alignContent: "center",
-		justifyContent: "center",
-		borderRadius: "3px",
-		width: `${props.blockSize}px`,
-		height: `${props.blockSize}px`,
-		fontWeight: "bold",
-		transition: "transform 0.2s, background-color 0.2s",
-	};
-
-	const ImageStyling: CSSProperties = {
-		margin: "auto",
-		width: "45%",
-		backgroundColor: "rgba(0, 0, 0, 0)",
-	};
-
 	const fontColors = [
 		"white",
 		"teal",
@@ -46,37 +28,69 @@ const Block = (props: blockProps) => {
 		"darkorchid",
 		"black",
 	];
+	const blockStyling: CSSProperties = {
+		backgroundColor: "#222",
+		display: "grid",
+		alignContent: "center",
+		justifyContent: "center",
+		borderRadius: "3px",
+		width: `${props.blockSize}px`,
+		height: `${props.blockSize}px`,
+		color: fontColors[props.tile.bombProx],
+		fontWeight: "bold",
+		transition: "transform 0.2s, background-color 0.2s",
+	};
 
-	// God bless this mess
+	const clearedBlockStlying: CSSProperties = {
+		...blockStyling,
+		backgroundColor: "#ccc",
+	};
+
+	const riggedBlockStyling: CSSProperties = {
+		...blockStyling,
+		backgroundColor: "#ff9a9a",
+	};
+
+	const ImageStyling: CSSProperties = {
+		margin: "auto",
+		width: "45%",
+		backgroundColor: "rgba(0, 0, 0, 0)",
+	};
+
+	// Dynamically assigns the tile's contents
+	let tile;
+	if (props.tile.cleared) {
+		if (props.tile.rigged) {
+			tile = (
+				<img
+					src={bombIcon}
+					alt="bomb"
+					style={{ ...ImageStyling, backgroundColor: "#ff9a9a" }}
+				/>
+			);
+		} else {
+			tile = props.tile.bombProx ? props.tile.bombProx : "";
+		}
+	} else {
+		if (props.tile.flagged) {
+			tile = <img src={flagIcon} alt="flag" style={ImageStyling} />;
+		}
+	}
+
+	// Dynamically assigns the tile's styles
+	let tileStyling = { ...blockStyling };
+	if (props.tile.cleared) {
+		tileStyling = clearedBlockStlying;
+		if (props.tile.rigged) tileStyling = riggedBlockStyling;
+	}
+
 	return (
 		<div
 			className="block"
 			onClick={() => props.onClick({ x: props.coords.x, y: props.coords.y })}
-			style={{
-				...BlockStyling,
-				...(props.tile.cleared
-					? props.tile.rigged
-						? { backgroundColor: "#ff9a9a" }
-						: { backgroundColor: "#ccc" }
-					: null),
-				color: fontColors[props.tile.bombProx],
-			}}
+			style={tileStyling}
 		>
-			{props.tile.cleared ? (
-				props.tile.rigged ? (
-					<img
-						src={bombIcon}
-						alt="bomb"
-						style={{ ...ImageStyling, backgroundColor: "#ff9a9a" }}
-					/>
-				) : props.tile.bombProx ? (
-					props.tile.bombProx
-				) : (
-					""
-				)
-			) : props.tile.flagged ? (
-				<img src={flagIcon} alt="flag" style={ImageStyling} />
-			) : null}
+			{tile}
 		</div>
 	);
 };
