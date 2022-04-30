@@ -7,6 +7,7 @@ interface menuProps {
 	changeDimmensions: (dimmensions: { width: number; height: number }) => void;
 	changeMinesPresent: (numOfMines: number) => void;
 	closeMenu: () => void;
+	reset: () => void;
 }
 
 const Menu = (props: menuProps) => {
@@ -37,14 +38,25 @@ const Menu = (props: menuProps) => {
 		switch (id) {
 			case "height":
 				dimmensions = { height: value, width: dimmensions.width };
+				props.changeMinesPresent(
+					Math.min(props.minesPresent, dimmensions.width * dimmensions.height)
+				);
 				props.changeDimmensions(dimmensions);
 				break;
 			case "width":
 				dimmensions = { height: dimmensions.height, width: value };
+				props.changeMinesPresent(
+					Math.min(props.minesPresent, dimmensions.width * dimmensions.height)
+				);
 				props.changeDimmensions(dimmensions);
 				break;
 			case "bombs":
-				props.changeMinesPresent(value);
+				props.changeMinesPresent(
+					Math.min(
+						value,
+						props.gridDimmensions.width * props.gridDimmensions.height
+					)
+				);
 				break;
 		}
 	}
@@ -55,7 +67,7 @@ const Menu = (props: menuProps) => {
 				<Slider
 					label="Height"
 					girdDimmensions={dimmensions}
-					max={100}
+					max={50}
 					min={1}
 					value={dimmensions.height}
 					change={changeDimmensions}
@@ -64,7 +76,7 @@ const Menu = (props: menuProps) => {
 				<Slider
 					label="Width"
 					girdDimmensions={dimmensions}
-					max={100}
+					max={50}
 					min={1}
 					value={dimmensions.width}
 					change={changeDimmensions}
@@ -75,13 +87,17 @@ const Menu = (props: menuProps) => {
 					girdDimmensions={dimmensions}
 					max={props.gridDimmensions.height * props.gridDimmensions.width}
 					min={1}
-					value={props.minesPresent}
+					value={Math.min(
+						props.minesPresent,
+						props.gridDimmensions.height * props.gridDimmensions.width
+					)}
 					change={changeDimmensions}
 					id="bombs"
 				/>
 				<button
 					onClick={() => {
 						props.changeDimmensions(dimmensions);
+						props.reset();
 						props.closeMenu();
 					}}
 				>

@@ -27,7 +27,7 @@ const Slider = (props: sliderProps) => {
 			<h3>{props.label}: </h3>
 			<input
 				type="range"
-				value={props.value}
+				defaultValue={props.value}
 				min={props.min}
 				max={props.max}
 				id={props.id}

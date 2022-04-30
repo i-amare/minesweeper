@@ -72,12 +72,10 @@ function App() {
 
 	function changeDimmensions(dimmensions: { width: number; height: number }) {
 		setGridDimmensions(dimmensions);
-		resetGame();
 	}
 
 	function changeMinesPresent(numOfMines: number) {
 		setMinesPresent(numOfMines);
-		resetGame();
 	}
 
 	/**
@@ -155,6 +153,7 @@ function App() {
 					minesPresent={minesPresent}
 					changeDimmensions={changeDimmensions}
 					changeMinesPresent={changeMinesPresent}
+					reset={resetGame}
 				/>
 			)}
 			<Bar
