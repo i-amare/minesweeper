@@ -67,7 +67,7 @@ const Menu = (props: menuProps) => {
 				<Slider
 					label="Height"
 					girdDimmensions={dimmensions}
-					max={50}
+					max={25}
 					min={1}
 					value={dimmensions.height}
 					change={changeDimmensions}
@@ -76,7 +76,7 @@ const Menu = (props: menuProps) => {
 				<Slider
 					label="Width"
 					girdDimmensions={dimmensions}
-					max={50}
+					max={25}
 					min={1}
 					value={dimmensions.width}
 					change={changeDimmensions}

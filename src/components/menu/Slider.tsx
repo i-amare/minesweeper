@@ -22,19 +22,34 @@ const Slider = (props: sliderProps) => {
 		justifyContent: "space-between",
 	};
 
+	const pairStyling: CSSProperties = {
+		display: "flex",
+		flexDirection: "column",
+		textAlign: "center",
+	};
+
 	return (
 		<div className="Slider" style={sliderStyling}>
-			<h3>{props.label}: </h3>
-			<input
-				type="range"
-				defaultValue={props.value}
-				min={props.min}
-				max={props.max}
-				id={props.id}
-				onChange={(event) =>
-					props.change(parseInt(event.target.value), props.id)
-				}
-			/>
+			<h3
+				style={{
+					margin: "5px",
+				}}
+			>
+				{props.label}:
+			</h3>
+			<div style={pairStyling}>
+				<input
+					type="range"
+					defaultValue={props.value}
+					min={props.min}
+					max={props.max}
+					id={props.id}
+					onChange={(event) =>
+						props.change(parseInt(event.target.value), props.id)
+					}
+				/>
+				<b>{props.value}</b>
+			</div>
 		</div>
 	);
 };
