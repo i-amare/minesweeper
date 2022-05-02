@@ -70,10 +70,18 @@ function App() {
 		if (event.key === "Control") setFlagModeState(false);
 	}
 
+	/**
+	 * Changes the dimmensions of the game grid
+	 * @param dimmensions The dimmensions of the new grid
+	 */
 	function changeDimmensions(dimmensions: { width: number; height: number }) {
 		setGridDimmensions(dimmensions);
 	}
 
+	/**
+	 * Changes the number of mines in the grid
+	 * @param numOfMines The number of mines on the grid
+	 */
 	function changeMinesPresent(numOfMines: number) {
 		setMinesPresent(numOfMines);
 	}

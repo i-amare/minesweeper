@@ -29,12 +29,18 @@ const Menu = (props: menuProps) => {
 		padding: "20px",
 		maxWidth: "75%",
 		width: "500px",
-		height: "450px",
+		height: "600px",
 		borderRadius: "10px",
 		margin: "auto",
 	};
 
-	function changeDimmensions(value: number, id: string) {
+	/**
+	 * Changes the value of a specified field
+	 * @param value The new value of the specified field
+	 * @param id The name of the fiels to be changed ("height, "width", "bombs" )
+	 */
+
+	function changeValue(value: number, id: string) {
 		switch (id) {
 			case "height":
 				dimmensions = { height: value, width: dimmensions.width };
@@ -70,7 +76,7 @@ const Menu = (props: menuProps) => {
 					max={25}
 					min={1}
 					value={dimmensions.height}
-					change={changeDimmensions}
+					change={changeValue}
 					id="height"
 				/>
 				<Slider
@@ -79,7 +85,7 @@ const Menu = (props: menuProps) => {
 					max={25}
 					min={1}
 					value={dimmensions.width}
-					change={changeDimmensions}
+					change={changeValue}
 					id="width"
 				/>
 				<Slider
@@ -91,7 +97,7 @@ const Menu = (props: menuProps) => {
 						props.minesPresent,
 						props.gridDimmensions.height * props.gridDimmensions.width
 					)}
-					change={changeDimmensions}
+					change={changeValue}
 					id="bombs"
 				/>
 				<button

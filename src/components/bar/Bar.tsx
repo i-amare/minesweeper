@@ -1,5 +1,4 @@
-import Clock from "./Clock";
-import BombDisplay from "./BombDisplay";
+import Count from "./Count";
 import restartIcon from "../../assets/restart.png";
 import menuIcon from "../../assets/menu.png";
 import { CSSProperties } from "react";
@@ -45,8 +44,7 @@ const Bar = (props: BarProps) => {
 					gap: "25px",
 				}}
 			>
-				<Clock timeElapsed={props.timeElapsed} />
-				<BombDisplay bombsLeft={props.bombsLeft} />
+				<Count bombsLeft={props.bombsLeft} timeElapsed={props.timeElapsed} />
 			</div>
 			<img
 				className="ResetBtn"

@@ -2,14 +2,14 @@ import { CSSProperties } from "react";
 import Block from "./Block";
 import Tile from "../../scripts/Tile";
 
-interface gridProps {
-	gridState: Tile[][];
-	tileEventHandler: (coords: tileCoords) => void;
-}
-
 interface tileCoords {
 	x: number;
 	y: number;
+}
+
+interface gridProps {
+	gridState: Tile[][];
+	tileEventHandler: (coords: tileCoords) => void;
 }
 
 const Grid = (props: gridProps) => {
