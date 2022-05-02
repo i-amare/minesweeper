@@ -1,5 +1,4 @@
 import React, { CSSProperties, useEffect, useState } from "react";
-import Tile from "./scripts/Tile";
 import "./App.css";
 import Grid from "./components/grid/Grid";
 import Bar from "./components/bar/Bar";
@@ -18,7 +17,6 @@ function App() {
 		width: 16,
 		height: 16,
 	});
-	
 	const [minesPresent, setMinesPresent] = useState(
 		Math.round(gridDimmensions.width * gridDimmensions.height * 0.15)
 	);
@@ -47,6 +45,19 @@ function App() {
 	}, [startTimeState]);
 
 	useEffect(() => {
+		// Handle keyboard shortcuts
+		function onKeyPress(event: KeyboardEvent) {
+			if (event.key === "R" || event.key === "r") resetGame();
+			if (event.key === "F" || event.key === "f") toggleFlagMode();
+		}
+		function onKeyDown(event: KeyboardEvent) {
+			if (event.key === "Control") setFlagModeState(true);
+		}
+		function onKeyUp(event: KeyboardEvent) {
+			if (event.key === "Control") setFlagModeState(false);
+		}
+
+		// Add event listners for keyboard events
 		window.addEventListener("keypress", onKeyPress);
 		window.addEventListener("keydown", onKeyDown);
 		window.addEventListener("keyup", onKeyUp);
@@ -56,19 +67,7 @@ function App() {
 			window.removeEventListener("keydown", onKeyDown);
 			window.removeEventListener("keydown", onKeyUp);
 		};
-	}, [flagModeState]);
-
-	// Handle keyboard shortcuts
-	function onKeyPress(event: KeyboardEvent) {
-		if (event.key === "R" || event.key === "r") resetGame();
-		if (event.key === "F" || event.key === "f") toggleFlagMode();
-	}
-	function onKeyDown(event: KeyboardEvent) {
-		if (event.key === "Control") setFlagModeState(true);
-	}
-	function onKeyUp(event: KeyboardEvent) {
-		if (event.key === "Control") setFlagModeState(false);
-	}
+	});
 
 	/**
 	 * Changes the dimmensions of the game grid
