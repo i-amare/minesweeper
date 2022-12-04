@@ -91,8 +91,8 @@ const Menu = (props: menuProps) => {
 				<Slider
 					label="Bombs"
 					girdDimmensions={dimmensions}
-					max={props.gridDimmensions.height * props.gridDimmensions.width}
-					min={1}
+					max={props.gridDimmensions.height * props.gridDimmensions.width / 2}
+					min={10}
 					value={Math.min(
 						props.minesPresent,
 						props.gridDimmensions.height * props.gridDimmensions.width

@@ -1,7 +1,8 @@
-import { CSSProperties } from "react";
-import bombIcon from "../../assets/bomb.png";
-import flagIcon from "../../assets/flag.png";
-import Tile from "../../scripts/Tile";
+import Radium from 'radium';
+import { CSSProperties } from 'react';
+import bombIcon from '../../assets/bomb.png';
+import flagIcon from '../../assets/flag.png';
+import Tile from '../../scripts/Tile';
 
 interface blockProps {
 	tile: Tile;
@@ -17,45 +18,48 @@ interface tileCoords {
 
 const Block = (props: blockProps) => {
 	const fontColors = [
-		"white",
-		"teal",
-		"green",
-		"lightcoral",
-		"tomato",
-		"red",
-		"magenta",
-		"blueviolet",
-		"darkorchid",
-		"black",
+		'white',
+		'teal',
+		'green',
+		'lightcoral',
+		'tomato',
+		'red',
+		'magenta',
+		'blueviolet',
+		'darkorchid',
+		'black',
 	];
-	
-	const blockStyling: CSSProperties = {
-		backgroundColor: "#222",
-		display: "grid",
-		alignContent: "center",
-		justifyContent: "center",
-		borderRadius: "3px",
+
+	const blockStyling: any = {
+		backgroundColor: '#222',
+		display: 'grid',
+		alignContent: 'center',
+		justifyContent: 'center',
+		borderRadius: '3px',
 		width: `${props.blockSize}px`,
 		height: `${props.blockSize}px`,
 		color: fontColors[props.tile.bombProx],
-		fontWeight: "bold",
-		transition: "transform 0.2s, background-color 0.2s",
+		fontWeight: 'bold',
+		transition: 'transform 0.2s, background-color 0.2s',
+		':active': {
+			transform: 'scale(0.9)',
+		},
 	};
 
 	const clearedBlockStlying: CSSProperties = {
 		...blockStyling,
-		backgroundColor: "#ccc",
+		backgroundColor: '#ccc',
 	};
 
 	const riggedBlockStyling: CSSProperties = {
 		...blockStyling,
-		backgroundColor: "#ff9a9a",
+		backgroundColor: '#ff9a9a',
 	};
 
 	const ImageStyling: CSSProperties = {
-		margin: "auto",
-		width: "45%",
-		backgroundColor: "rgba(0, 0, 0, 0)",
+		margin: 'auto',
+		width: '45%',
+		backgroundColor: 'rgba(0, 0, 0, 0)',
 	};
 
 	// Dynamically assigns the tile's contents
@@ -65,16 +69,16 @@ const Block = (props: blockProps) => {
 			tile = (
 				<img
 					src={bombIcon}
-					alt="bomb"
-					style={{ ...ImageStyling, backgroundColor: "#ff9a9a" }}
+					alt='bomb'
+					style={{ ...ImageStyling, backgroundColor: '#ff9a9a' }}
 				/>
 			);
 		} else {
-			tile = props.tile.bombProx ? props.tile.bombProx : "";
+			tile = props.tile.bombProx ? props.tile.bombProx : '';
 		}
 	} else {
 		if (props.tile.flagged) {
-			tile = <img src={flagIcon} alt="flag" style={ImageStyling} />;
+			tile = <img src={flagIcon} alt='flag' style={ImageStyling} />;
 		}
 	}
 
@@ -87,7 +91,7 @@ const Block = (props: blockProps) => {
 
 	return (
 		<div
-			className="block"
+			className='block'
 			onClick={() => props.onClick({ x: props.coords.x, y: props.coords.y })}
 			style={tileStyling}
 		>
@@ -96,4 +100,4 @@ const Block = (props: blockProps) => {
 	);
 };
 
-export default Block;
+export default Radium(Block);

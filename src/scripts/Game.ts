@@ -95,7 +95,6 @@ const Game = {
 							grid
 						);
 						tile.cleared = true;
-						tile.flagged = false;
 						if (tile.bombProx === 0)
 							this.clear({ x: coords.x + i, y: coords.y + j }, grid);
 					}
@@ -105,6 +104,13 @@ const Game = {
 			}
 		}
 	},
+	clearAll(grid: Tile[][]) {
+		for (let row of grid) {
+			for (let tile of row) {
+				tile.cleared = true;
+			}
+		}
+	}
 };
 
 export default Game;

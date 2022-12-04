@@ -27,6 +27,7 @@ const Count = (props: countProps) => {
 	};
 
 	/**
+	 *
 	 * Formats time elapsed into mm:ss format
 	 * @param milliSeconds The time elapsed in millisecods
 	 * @returns A string represnting the time passed in mm:ss format

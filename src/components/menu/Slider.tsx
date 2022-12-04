@@ -1,5 +1,4 @@
 import { CSSProperties } from "react";
-
 interface dimmensions {
 	height: number;
 	width: number;

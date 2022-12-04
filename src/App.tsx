@@ -12,6 +12,9 @@ interface tileCoords {
 }
 
 function App() {
+	// Game State
+	const [gameState, setGameState] = useState(false);
+
 	// Grid states
 	const [gridDimmensions, setGridDimmensions] = useState({
 		width: 16,
@@ -32,8 +35,12 @@ function App() {
 	const [startTimeState, setStartTimeState] = useState(new Date().getTime());
 	const [timeElapsedState, setTimeElapsedState] = useState(0);
 
+	// Menu state
 	const [menuOpen, setMenuOpen] = useState(false);
 
+	/**
+	 * Increments the timer
+	 */
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setTimeElapsedState(new Date().getTime() - startTimeState);
@@ -49,6 +56,7 @@ function App() {
 		function onKeyPress(event: KeyboardEvent) {
 			if (event.key === "R" || event.key === "r") resetGame();
 			if (event.key === "F" || event.key === "f") toggleFlagMode();
+			if (event.key === "C" || event.key === "c") Game.clearAll(gridState);
 		}
 		function onKeyDown(event: KeyboardEvent) {
 			if (event.key === "Control") setFlagModeState(true);
@@ -65,7 +73,7 @@ function App() {
 		return () => {
 			window.removeEventListener("keypress", onKeyPress);
 			window.removeEventListener("keydown", onKeyDown);
-			window.removeEventListener("keydown", onKeyUp);
+			window.removeEventListener("keyup", onKeyUp);
 		};
 	});
 
