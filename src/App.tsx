@@ -57,12 +57,15 @@ function App() {
 			if (event.key === "R" || event.key === "r") resetGame();
 			if (event.key === "F" || event.key === "f") toggleFlagMode();
 			if (event.key === "C" || event.key === "c") Game.clearAll(gridState);
+			if (event.key === "M" || event.key === "m") toggleMenu();
 		}
 		function onKeyDown(event: KeyboardEvent) {
 			if (event.key === "Control") setFlagModeState(true);
+			if (event.key === "Shift") setFlagModeState(true);
 		}
 		function onKeyUp(event: KeyboardEvent) {
 			if (event.key === "Control") setFlagModeState(false);
+			if (event.key === "Shift") setFlagModeState(false);
 		}
 
 		// Add event listners for keyboard events
@@ -91,6 +94,10 @@ function App() {
 	 */
 	function changeMinesPresent(numOfMines: number) {
 		setMinesPresent(numOfMines);
+	}
+
+	function toggleMenu() {
+		setMenuOpen(!menuOpen);
 	}
 
 	/**
